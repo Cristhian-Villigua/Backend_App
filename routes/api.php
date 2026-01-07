@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ClienteController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,10 @@ Route::middleware(['jwt.verify'])->prefix('client')->group(function(){
     Route::put('/client/{id}', [ClienteController::class, 'update']);      
     Route::delete('/client/{id}', [ClienteController::class, 'destroy']);
 });
+ 
+Route::middleware(['jwt.verify'])->group(function () { 
+Route::get('/user', function (Request $request) { 
+return $request->user(); 
+}); 
+Route::post('/logout', [AuthController::class, 'logout']); 
+}); 
