@@ -27,14 +27,6 @@ class AuthController extends Controller{
             return response()->json(['message' => 'Error al crear el cliente'], 500);
         }
 
-        // Genera el token para el cliente
-        try {
-            $token = JWTAuth::fromUser($client);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error al generar el token'], 500);
-        }
-
-
         $token = JWTAuth::fromUser($client);
 
         return response()->json([
@@ -42,5 +34,44 @@ class AuthController extends Controller{
             'client' => $client,
             'token' => $token
         ], 201);
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'Credenciales incorrectas. Verifique su email o contraseña.',
+                'error' => 'invalid_credentials'
+            ], 401);
+        }
+
+        $client = auth()->user();
+
+        return response()->json([
+            'message' => 'Login exitoso',
+            'user' => [
+                'id'    => $client->id,
+                'name'  => $client->nombres,
+                'lastname' => $client->apellidos,
+                'email' => $client->email,
+            ],
+            'token' => $token,
+        ]);
+    }
+
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+
+        return response()->json([
+            'message' => 'Sesión cerrada correctamente',
+        ]);
     }
 }
