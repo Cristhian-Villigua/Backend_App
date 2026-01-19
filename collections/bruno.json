@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "GourmetGo",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Editar plato
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{BACKEND_URL}}/api/admin/items/1
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+body:json {
+  {
+    "price": 6.25
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

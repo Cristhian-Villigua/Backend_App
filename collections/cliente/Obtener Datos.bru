@@ -1,0 +1,22 @@
+meta {
+  name: Obtener Datos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BACKEND_URL}}/api/me
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

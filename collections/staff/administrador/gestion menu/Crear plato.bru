@@ -1,0 +1,32 @@
+meta {
+  name: Crear plato
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BACKEND_URL}}/api/admin/items
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+body:json {
+  {
+    "title": "Hamburguesa Clásica",
+    "description": "Carne de res, queso y papas fritas",
+    "price": 5.50,
+    "category_id": 1
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

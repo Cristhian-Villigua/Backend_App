@@ -1,0 +1,22 @@
+meta {
+  name: Cerrar Sesión
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BACKEND_URL}}/api/logout
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,36 @@
+meta {
+  name: Iniciar Sesión Cliente
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BACKEND_URL}}/api/auth/login
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "email": "joel1@example.com",
+      "password": "12345678"
+  }
+}
+
+script:post-response {
+  const response = res.body;
+  
+  if (response.token) {
+    bru.setEnvVar("TOKEN_CLIENTE", response.token);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

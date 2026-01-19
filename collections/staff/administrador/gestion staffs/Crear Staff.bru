@@ -1,0 +1,35 @@
+meta {
+  name: Crear Staff
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BACKEND_URL}}/api/admin/usuarios
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+body:json {
+  {
+      "nombres": "Joel",
+      "apellidos": "Servicio",
+      "birthdate": "01/01/2000",
+      "celular": "0977777777",
+      "genero": "Hombre",
+      "email": "mesero1@gourmetgo.com",
+      "password": "mesero123",
+      "role": "mesero"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

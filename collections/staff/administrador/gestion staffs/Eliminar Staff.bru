@@ -1,0 +1,22 @@
+meta {
+  name: Eliminar Staff
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{BACKEND_URL}}/api/admin/usuarios/5
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

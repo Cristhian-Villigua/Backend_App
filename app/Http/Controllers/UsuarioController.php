@@ -11,7 +11,7 @@ class UsuarioController extends Controller
 {
     public function index(){
 
-        $user = Usuario::sll();
+        $user = Usuario::all();
         return response()->json($user, 200);
     }
 
@@ -62,53 +62,62 @@ class UsuarioController extends Controller
         return response()->json($user, 200);
     }
 
-    public function update(Request $request, $id){
-
+    public function update(Request $request, $id)
+    {
         $user = Usuario::find($id);
 
-        if(!$user){
+        if(!$user) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
 
         $request->validate([
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'birthdate' => 'required',
-            'celular' => 'required',
-            'genero' => 'required',
-            'photo' => 'nullable',
-            'email' => 'required|string|email|max:100|unique:usuarios' . $id,
-            'password' => 'nullable|min:8|max:15',
+            'nombres'   => 'sometimes|string',
+            'apellidos' => 'sometimes|string',
+            'birthdate' => 'sometimes',
+            'celular'   => 'sometimes|string',
+            'genero'    => 'sometimes|string',
+            'email'     => 'sometimes|string|email|unique:usuarios,email,' . $id,
+            'password'  => 'nullable|min:8|max:15',
+            'role'      => 'sometimes|in:cocinero,mesero,administrador',
         ]);
 
-        $user->nombres = $request->nombres;
-        $user->apellidos = $request->apellidos;
-        $user->birthdate = $request->birthdate;
-        $user->celular = $request->celular;
-        $user->genero = $request->genero;
-        $user->photo = $request->photo;
-        $user->email = $request->email;
-        if($request->filled('password')){
-            $user->password = Hash::make($request['password']);
+        if ($request->has('nombres'))   $user->nombres = $request->nombres;
+        if ($request->has('apellidos')) $user->apellidos = $request->apellidos;
+        if ($request->has('birthdate')) $user->birthdate = $request->birthdate;
+        if ($request->has('celular'))   $user->celular = $request->celular;
+        if ($request->has('genero'))    $user->genero = $request->genero;
+        if ($request->has('email'))     $user->email = $request->email;
+        if ($request->has('role'))      $user->role = $request->role;
+
+        if ($request->hasFile('photo')) {
+            $user->photo = $request->file('photo')->store('photos', 'public');
         }
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
         $user->save();
 
         return response()->json([
             'message' => 'Usuario actualizado exitosamente',
-            'user' => $user
-        ], 201);
+            'user'    => $user
+        ], 200);
     }
 
-    public function destroy($id){
-
+    public function destroy($id)
+    {
         $user = Usuario::find($id);
 
-        if(!$user){
+        if(!$user) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
+
+        $user->delete();
+
         return response()->json([
             'message' => 'Usuario eliminado exitosamente',
-            'user' => $user
+            'user'    => $user
         ], 200);
     }
 }

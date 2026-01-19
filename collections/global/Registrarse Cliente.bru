@@ -1,0 +1,35 @@
+meta {
+  name: Registrarse Cliente
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BACKEND_URL}}/api/auth/register
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "nombres": "Joel",
+      "apellidos": "Cedeño",
+      "birthdate": "18/1/2000",
+      "celular": "0999999999",
+      "genero": "Hombre",
+      "photo": null,
+      "email": "joel1@example.com",
+      "password": "12345678",
+      "password_confirmation": "12345678"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

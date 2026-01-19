@@ -1,0 +1,22 @@
+meta {
+  name: Eliminar Cliente
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{BACKEND_URL}}/api/admin/clientes/2
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

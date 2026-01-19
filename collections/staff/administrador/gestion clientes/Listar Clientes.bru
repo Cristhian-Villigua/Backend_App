@@ -1,0 +1,22 @@
+meta {
+  name: Listar Clientes
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{BACKEND_URL}}/api/admin/clientes
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

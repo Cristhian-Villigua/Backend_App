@@ -1,0 +1,29 @@
+meta {
+  name: Editar Staff
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{BACKEND_URL}}/api/admin/usuarios/5
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+body:json {
+  {
+      "nombres": "Joel Daniel",
+      "apellidos": "Cedeño Pin"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

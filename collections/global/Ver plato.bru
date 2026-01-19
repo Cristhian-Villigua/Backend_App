@@ -1,0 +1,21 @@
+meta {
+  name: Ver plato
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{BACKEND_URL}}/api/items/1
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: 
+  Content-Type: 
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

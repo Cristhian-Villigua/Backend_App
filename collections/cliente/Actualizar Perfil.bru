@@ -1,0 +1,29 @@
+meta {
+  name: Actualizar Perfil
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{BACKEND_URL}}/api/clientes/4
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN}}
+}
+
+body:json {
+  {
+      "nombres": "Joel Daniel",
+      "apellidos": "Cedeño Pin"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

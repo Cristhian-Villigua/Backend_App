@@ -1,0 +1,22 @@
+meta {
+  name: Eliminar plato
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{BACKEND_URL}}/api/admin/items/1
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

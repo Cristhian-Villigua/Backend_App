@@ -1,0 +1,21 @@
+meta {
+  name: Listar platos
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{BACKEND_URL}}/api/items
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

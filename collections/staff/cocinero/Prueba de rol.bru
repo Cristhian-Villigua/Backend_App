@@ -1,0 +1,22 @@
+meta {
+  name: Prueba de rol
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BACKEND_URL}}/api/cocinero/pedidos
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

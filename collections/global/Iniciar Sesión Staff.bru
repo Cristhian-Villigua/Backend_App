@@ -1,0 +1,36 @@
+meta {
+  name: Iniciar Sesión Staff
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BACKEND_URL}}/api/usuarios/login
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "email": "admin@gourmetgo.com",
+      "password": "admin123"
+  }
+}
+
+script:post-response {
+  const response = res.body;
+  
+  if (response.token) {
+    bru.setEnvVar("TOKEN_STAFF", response.token);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

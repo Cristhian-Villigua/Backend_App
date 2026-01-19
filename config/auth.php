@@ -40,9 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // Guard para clientes normales (App móvil)
         'api' => [
             'driver' => 'jwt',
             'provider' => 'clientes',
+        ],
+        // Guard para Staff (Admin, Mesero, etc.)
+        'api_usuarios' => [
+            'driver' => 'jwt',
+            'provider' => 'usuarios_staff',
         ],
     ],
 
@@ -72,6 +78,11 @@ return [
         'clientes' => [
         'driver' => 'eloquent',
         'model' => App\Models\Cliente::class,
+        ],
+
+        'usuarios_staff' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Usuario::class,
         ],
     ],
 

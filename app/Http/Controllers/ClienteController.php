@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $client = Cliente::all();
         return response()->json($client, 200);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $client = Cliente::find($id);
         if(!$client){
             return response()->json(['error' => 'Cliente no encontrado'], 404);
@@ -22,7 +24,8 @@ class ClienteController extends Controller
         return response()->json($client, 200);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $client = Cliente::find($id);
         
         if(!$client){
@@ -30,40 +33,45 @@ class ClienteController extends Controller
         }
 
         $request->validate([
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'birthdate' => 'required',
-            'celular' => 'required',
-            'genero' => 'required',
-            'photo' => 'nullable',
-            'email' => 'required|string|email|max:100|unique:usuarios' . $id,
-            'password' => 'nullable|min:8|max:15',
+            'nombres'   => 'sometimes|string',
+            'apellidos' => 'sometimes|string',
+            'birthdate' => 'sometimes|date',
+            'celular'   => 'sometimes|string',
+            'genero'    => 'sometimes|string',
+            'email'     => 'sometimes|email|unique:clientes,email,' . $id,
+            'password'  => 'nullable|min:8',
         ]);
 
-        $client->nombres = $request->nombres;
-        $client->apellidos = $request->apellidos;
-        $client->birthdate = $request->birthdate;
-        $client->celular = $request->celular;
-        $client->genero = $request->genero;
-        $client->photo = $request->photo;
-        $client->email = $request->email;
+        if ($request->has('nombres'))   $client->nombres = $request->nombres;
+        if ($request->has('apellidos')) $client->apellidos = $request->apellidos;
+        if ($request->has('birthdate')) $client->birthdate = $request->birthdate;
+        if ($request->has('celular'))   $client->celular = $request->celular;
+        if ($request->has('genero'))    $client->genero = $request->genero;
+        if ($request->has('photo'))     $client->photo = $request->photo;
+        if ($request->has('email'))     $client->email = $request->email;
+        
         if($request->filled('password')){
-            $client->password = Hash::make($request['password']);
+            $client->password = Hash::make($request->password);
         }
+
         $client->save();
 
         return response()->json([
             'message' => 'Cliente actualizado exitosamente',
             'client' => $client
-        ], 201);
+        ], 200);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $client = Cliente::find($id);
 
         if(!$client){
             return response()->json(['error' => 'Cliente no encontrado'], 404);
         }
+
+        $client->delete();
+
         return response()->json([
             'message' => 'Cliente eliminado exitosamente',
             'client' => $client

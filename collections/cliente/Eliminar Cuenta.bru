@@ -1,0 +1,22 @@
+meta {
+  name: Eliminar Cuenta
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{BACKEND_URL}}/api/clientes/4
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

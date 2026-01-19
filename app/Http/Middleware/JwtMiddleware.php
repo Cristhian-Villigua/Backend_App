@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
-class Jwtmiddleware
+class JwtMiddleware
 {
     /**
      * Handle an incoming request.
