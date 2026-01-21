@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{BACKEND_URL}}/api/admin/items/9
+  url: {{BACKEND_URL}}/api/admin/items/1
   body: json
   auth: inherit
 }
@@ -18,9 +18,13 @@ headers {
 
 body:json {
   {
+    "category_id": 2,
+    "title": "Hamburgues Royal",
+    "description": "Carne res, huevo, queso y tocino.",
     "picUrl": [
-      "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500"
-    ]
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500"
+    ],
+    "price": 8.50
   }
   
 }
