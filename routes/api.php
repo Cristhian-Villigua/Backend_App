@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UsuarioAuthController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -28,6 +29,8 @@ Route::prefix('usuarios')->group(function () {
 // Ítems públicos platos para el menú
 Route::get('/items', [ItemController::class, 'index']);
 Route::get('/items/{id}', [ItemController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
 
 /*
@@ -51,8 +54,12 @@ Route::middleware(['auth:api_usuarios'])->group(function () {
 
         // Gestión de Usuarios Staff
         Route::apiResource('usuarios', UsuarioController::class); //ok probada con bruno index, show, store, update, destroy
-        
-        // Gestión de Menu
+
+        // Gestión de Categorías
+        Route::apiResource('categories', CategoryController::class)->only([
+            'store', 'update', 'destroy']); //ok probada con bruno store, update, destroy
+
+        // Gestión de Ítems o Platos
         Route::apiResource('items', ItemController::class)->only([
             'store', 'update', 'destroy']); //ok probada con bruno store, update, destroy
     });

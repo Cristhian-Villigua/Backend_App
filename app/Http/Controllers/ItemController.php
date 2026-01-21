@@ -39,7 +39,8 @@ class ItemController extends Controller
             'description'  => 'nullable|string',
             'price'        => 'required|numeric|min:0',
             'category_id'  => 'required|exists:categories,id',
-            'picUrl.*'     => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'picUrl'   => 'nullable|array',
+            'picUrl.*' => 'nullable|string'
         ]);
 
         $pics = [];
@@ -47,6 +48,10 @@ class ItemController extends Controller
         if ($request->hasFile('picUrl')) {
             foreach ($request->file('picUrl') as $img) {
                 $pics[] = $img->store('items', 'public');
+            }
+        } elseif ($request->has('picUrl')) {
+            foreach ($request->picUrl as $url) {
+                $pics[] = $url;
             }
         }
 
@@ -77,7 +82,8 @@ class ItemController extends Controller
             'description'  => 'sometimes|string',
             'price'        => 'sometimes|numeric|min:0',
             'category_id'  => 'sometimes|exists:categories,id',
-            'picUrl.*'     => 'sometimes|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'picUrl'   => 'nullable|array',
+            'picUrl.*' => 'nullable|string',
         ]);
 
         if ($request->has('title'))        $item->title = $request->title;
@@ -85,12 +91,16 @@ class ItemController extends Controller
         if ($request->has('price'))        $item->price = $request->price;
         if ($request->has('category_id'))  $item->category_id = $request->category_id;
 
+        $pics = [];
+
         if ($request->hasFile('picUrl')) {
-            $pics = [];
             foreach ($request->file('picUrl') as $img) {
                 $pics[] = $img->store('items', 'public');
             }
-            $item->picUrl = $pics;
+        } elseif ($request->has('picUrl')) {
+            foreach ($request->picUrl as $url) {
+                $pics[] = $url;
+            }
         }
 
         $item->save();

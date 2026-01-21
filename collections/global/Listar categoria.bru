@@ -1,11 +1,11 @@
 meta {
-  name: Eliminar plato
+  name: Listar categoria
   type: http
-  seq: 3
+  seq: 7
 }
 
-delete {
-  url: {{BACKEND_URL}}/api/admin/items/1
+get {
+  url: {{BACKEND_URL}}/api/categories
   body: none
   auth: inherit
 }
@@ -13,7 +13,6 @@ delete {
 headers {
   Accept: application/json
   Content-Type: application/json
-  Authorization: bearer {{TOKEN_STAFF}}
 }
 
 settings {

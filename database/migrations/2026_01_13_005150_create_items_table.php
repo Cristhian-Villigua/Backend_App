@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->string('title');
-            $table->text('description');
-            $table->json('picUrl');
+            $table->text('description')->nullable();
+            $table->json('picUrl')->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();
 

@@ -1,0 +1,28 @@
+meta {
+  name: Editar
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{BACKEND_URL}}/api/admin/categories/4
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  Authorization: bearer {{TOKEN_STAFF}}
+}
+
+body:json {
+  {
+    "title": "Bebidas1"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

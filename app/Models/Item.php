@@ -16,7 +16,8 @@ class Item extends Model
     ];
 
     protected $casts = [
-        'picUrl' => 'array'
+        'picUrl' => 'array',
+        'price' => 'decimal:2'
     ];
 
     public function category()

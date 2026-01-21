@@ -1,11 +1,11 @@
 meta {
-  name: Crear plato
+  name: Crear
   type: http
-  seq: 1
+  seq: 4
 }
 
 post {
-  url: {{BACKEND_URL}}/api/admin/items
+  url: {{BACKEND_URL}}/api/admin/categories
   body: json
   auth: inherit
 }
@@ -18,12 +18,8 @@ headers {
 
 body:json {
   {
-    "title": "Hamburguesa Clásica",
-    "description": "Carne de res, queso y papas fritas",
-    "price": 5.50,
-    "category_id": 1
+    "title": "Bebidas"
   }
-  
 }
 
 settings {

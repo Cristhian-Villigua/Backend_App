@@ -1,11 +1,11 @@
 meta {
-  name: Editar plato
+  name: Editar
   type: http
   seq: 2
 }
 
 put {
-  url: {{BACKEND_URL}}/api/admin/items/1
+  url: {{BACKEND_URL}}/api/admin/items/9
   body: json
   auth: inherit
 }
@@ -18,7 +18,9 @@ headers {
 
 body:json {
   {
-    "price": 6.25
+    "picUrl": [
+      "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500"
+    ]
   }
   
 }
