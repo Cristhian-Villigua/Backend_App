@@ -1,7 +1,7 @@
 meta {
-  name: Iniciar Sesión Cliente
+  name: Iniciar Sesión
   type: http
-  seq: 4
+  seq: 2
 }
 
 post {
@@ -17,8 +17,8 @@ headers {
 
 body:json {
   {
-      "email": "joel1@example.com",
-      "password": "12345678"
+      "email": "admin@gourmetgo.com",
+      "password": "admin123"
   }
 }
 
@@ -26,7 +26,7 @@ script:post-response {
   const response = res.body;
   
   if (response.token) {
-    bru.setEnvVar("TOKEN_CLIENTE", response.token);
+    bru.setEnvVar("TOKEN", response.token);
   }
 }
 

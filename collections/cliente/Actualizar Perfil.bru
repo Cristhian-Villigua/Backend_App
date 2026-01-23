@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{BACKEND_URL}}/api/clientes/4
+  url: {{BACKEND_URL}}/api/clientes/1
   body: json
   auth: inherit
 }
@@ -13,7 +13,7 @@ put {
 headers {
   Accept: application/json
   Content-Type: application/json
-  Authorization: bearer {{TOKEN}}
+  Authorization: bearer {{TOKEN_CLIENTE}}
 }
 
 body:json {

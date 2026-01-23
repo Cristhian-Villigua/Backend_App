@@ -1,11 +1,11 @@
 meta {
-  name: Eliminar Cuenta
+  name: Obtener datos
   type: http
-  seq: 3
+  seq: 2
 }
 
-delete {
-  url: {{BACKEND_URL}}/api/clientes/4
+get {
+  url: {{BACKEND_URL}}/api/usuarios/me
   body: none
   auth: inherit
 }
@@ -13,7 +13,7 @@ delete {
 headers {
   Accept: application/json
   Content-Type: application/json
-  Authorization: bearer {{TOKEN_CLIENTE}}
+  Authorization: bearer {{TOKEN}}
 }
 
 settings {

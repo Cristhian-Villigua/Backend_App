@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UsuarioAuthController;
-use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
@@ -15,15 +15,10 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 
-// Auth Clientes
+// Auth Clientes + USUARIOS (admin, mesero, cocinero)
 Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']); //ok probada con bruno
-    Route::post('login', [AuthController::class, 'login']); //ok probada con bruno
-});
-
-// USUARIOS (admin, mesero, cocinero)
-Route::prefix('usuarios')->group(function () {
-    Route::post('login', [UsuarioAuthController::class, 'login']); //ok probada con bruno
+    Route::post('register', [AuthController::class, 'register']); // Cliente
+    Route::post('login', [AuthController::class, 'login']);       // Cliente + Usuario
 });
 
 // Ítems públicos platos para el menú
@@ -39,6 +34,21 @@ Route::get('/categories/{id}', [CategoryController::class, 'show']);
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:api_usuarios'])->group(function () {
+
+    Route::get('/usuarios/me', function (Request $request) {
+        // $request->user() ya devuelve el usuario autenticado
+        return response()->json($request->user());
+    });
+
+    // Rutas para que cualquier usuario staff pueda actualizar o eliminar su perfil
+    Route::prefix('usuarios')->group(function () {
+        // Actualizar mi propio perfil
+        Route::put('/{id}', [UsuarioController::class, 'update']); 
+
+        // Eliminar mi propia cuenta
+        Route::delete('/{id}', [UsuarioController::class, 'destroy']); 
+    });
+
     
     Route::post('/usuarios/logout', [UsuarioAuthController::class, 'logout']); //ok probada con bruno
 

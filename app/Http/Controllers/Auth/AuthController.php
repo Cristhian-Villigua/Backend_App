@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
+use App\Models\Usuario;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use App\Request\Auth\RegisterRequest;
@@ -39,31 +40,55 @@ class AuthController extends Controller{
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|string',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        // 1️⃣ Buscar primero en USUARIOS (admin / staff)
+        $usuario = Usuario::where('email', $request->email)->first();
 
-        if (!$token = JWTAuth::attempt($credentials)) {
+        if ($usuario && Hash::check($request->password, $usuario->password)) {
+
+            $token = JWTAuth::fromUser($usuario);
+
             return response()->json([
-                'message' => 'Credenciales incorrectas. Verifique su email o contraseña.',
-                'error' => 'invalid_credentials'
-            ], 401);
+                'message' => 'Login usuario exitoso',
+                'type'    => 'usuario',
+                'role'    => $usuario->role,
+                'user'    => [
+                    'id'        => $usuario->id,
+                    'nombres'   => $usuario->nombres,
+                    'apellidos' => $usuario->apellidos,
+                    'email'     => $usuario->email,
+                ],
+                'token' => $token,
+            ], 200);
         }
 
-        $client = auth()->user();
+        // 2️⃣ Buscar en CLIENTES
+        $cliente = Cliente::where('email', $request->email)->first();
 
+        if ($cliente && Hash::check($request->password, $cliente->password)) {
+
+            $token = JWTAuth::fromUser($cliente);
+
+            return response()->json([
+                'message' => 'Login cliente exitoso',
+                'type'    => 'cliente',
+                'user'    => [
+                    'id'        => $cliente->id,
+                    'nombres'   => $cliente->nombres,
+                    'apellidos' => $cliente->apellidos,
+                    'email'     => $cliente->email,
+                ],
+                'token' => $token,
+            ], 200);
+        }
+
+        // 3️⃣ Si no coincide ninguno
         return response()->json([
-            'message' => 'Login exitoso',
-            'user' => [
-                'id'    => $client->id,
-                'name'  => $client->nombres,
-                'lastname' => $client->apellidos,
-                'email' => $client->email,
-            ],
-            'token' => $token,
-        ]);
+            'message' => 'Credenciales incorrectas',
+        ], 401);
     }
 
     public function logout()
