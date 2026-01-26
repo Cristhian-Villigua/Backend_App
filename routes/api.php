@@ -81,30 +81,26 @@ Route::middleware(['auth:api_usuarios'])->group(function () {
 
     // Cocinero
     Route::middleware('role:cocinero')->group(function () {
-        Route::get('/cocinero/pedidos', fn() => response()->json('Lista de pedidos para el cocinero')); //ok probada con bruno
+        Route::get('/cocinero/orders/pending', [\App\Http\Controllers\OrderController::class, 'pendingOrders']);
+        Route::get('/cocinero/orders/history', [\App\Http\Controllers\OrderController::class, 'history']);
+        Route::put('/cocinero/orders/{id}/status', [\App\Http\Controllers\OrderController::class, 'updateStatus']);
+        Route::delete('/cocinero/orders/{id}', [\App\Http\Controllers\OrderController::class, 'destroy']);
     });
 });
 
-
-/*
-|--------------------------------------------------------------------------
-| 3. RUTAS PARA CLIENTES (Protegidas) - Guard: api (Default)
-|--------------------------------------------------------------------------
-*/
 Route::middleware(['auth:api'])->group(function () {
     
-    Route::post('/logout', [AuthController::class, 'logout']); //ok probada con bruno
-    
-    // Perfil de Cliente
-    // Obtener mis datos
+    Route::post('/logout', [AuthController::class, 'logout']);
+
     Route::get('/me', function (Request $request) {
-        return $request->user(); //ok probada con bruno
+        return $request->user();
     });
 
     Route::prefix('clientes')->group(function () {
-        // Actualizar mis datos
-        Route::put('/{id}', [ClienteController::class, 'update']); //ok probada con bruno
-        // Eliminar mi propia cuenta
-        Route::delete('/{id}', [ClienteController::class, 'destroy']); //ok probada con bruno
+        Route::put('/{id}', [ClienteController::class, 'update']);
+        Route::delete('/{id}', [ClienteController::class, 'destroy']);
     });
+
+    Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index']);
+    Route::post('/orders', [\App\Http\Controllers\OrderController::class, 'store']);
 });

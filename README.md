@@ -32,15 +32,11 @@ DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=GourmetGO
 DB_USERNAME=postgres
-DB_PASSWORD=tucontraseña
-```
 ### 5. Ejecutar Migraciones
 Una vez configurada la base de datos, crea las tablas:
 ```bash
-php artisan migrate
+php artisan migrate:fresh --seed
 ```
 ### 6. Ejecutar Server
 Iniciar el servidor local:
-```bash
-php artisan serve
 ```
