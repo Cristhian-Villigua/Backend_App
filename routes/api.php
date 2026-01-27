@@ -59,8 +59,7 @@ Route::middleware(['auth:api_usuarios'])->group(function () {
         Route::get('/dashboard', fn() => response()->json('Bienvenido al Dashboard de Administrador')); //ok probada con bruno
 
         // Gestión de Clientes
-        Route::apiResource('clientes', ClienteController::class)->only([
-            'index', 'show', 'update', 'destroy']); //ok probada con bruno index, show, update, destroy
+        Route::apiResource('clientes', ClienteController::class); //ok probada con bruno index, show, store update, destroy
 
         // Gestión de Usuarios Staff
         Route::apiResource('usuarios', UsuarioController::class); //ok probada con bruno index, show, store, update, destroy

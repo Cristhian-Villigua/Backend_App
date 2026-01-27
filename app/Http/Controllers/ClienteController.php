@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
 {
@@ -23,6 +24,37 @@ class ClienteController extends Controller
 
         return response()->json($client, 200);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombres'   => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'birthdate' => 'nullable|date',
+            'celular'   => 'nullable|string|max:20',
+            'genero'    => 'nullable|string|max:20',
+            'photo'     => 'nullable|string',
+            'email'     => 'required|email|unique:clientes,email',
+            'password'  => 'required|min:8',
+        ]);
+
+        $client = Cliente::create([
+            'nombres'   => $request->nombres,
+            'apellidos' => $request->apellidos,
+            'birthdate' => $request->birthdate,
+            'celular'   => $request->celular,
+            'genero'    => $request->genero,
+            'photo'     => $request->photo,
+            'email'     => $request->email,
+            'password'  => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'message' => 'Cliente creado exitosamente',
+            'client'  => $client
+        ], 201);
+    }
+
 
     public function update(Request $request, $id)
     {
